@@ -20,15 +20,21 @@ app.get('/api/users', (req, res) => {
 
 app.get('/api/users/:id', (req, res) => {
     console.log(req.params);
-    const parsedID = parseInt(req.params.id)
 
+    const parsedID = parseInt(req.params.id);
     if (isNaN(parsedID)) 
         return res.status(400).send({ msg: "Bad request. Invalid ID!!!"})
 
-    const findUser = mockUsers.find((user) => {
-        user.id === parsedID
-    }) 
-})
+    const findUser = mockUsers.find((user) => 
+        user.id === parsedID)
+    if (!findUser)
+        return res.sendStatus(404);
+    return res.send(findUser);
+    } 
+
+    
+
+);
 
 app.get("/api/v1/products", (req, res) => {
     res.status(202).send([
