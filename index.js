@@ -71,6 +71,22 @@ app.put("/api/users/:id", (req, res) => {
 });
 
 
+app.patch('/api/users/:id', (req, res) => {
+    const {
+        body,
+        params: { id }
+    } = req;
+
+    const parsedId = parseInt(id);
+    if (isNaN(parsedId)) return res.sendStatus(400);
+    const findUserIndex = mockUsers.findIndex((user) => user.id === parsedId);
+
+    if (findUserIndex === -1) return res.sendStatus(404);
+    mockUsers[findUserIndex] = { ...mockUsers[findUserIndex], ...body };
+    return res.sendStatus(200);
+});
+
+
 app.get("/api/v1/products", (req, res) => {
     res.status(202).send([
         { id: 1, product: "Gucci Bag", price: "$100"},
